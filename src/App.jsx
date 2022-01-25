@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import BuyLotto from "./components/BuyLotto/BuyLotto";
 import Header from "./components/Header/Header";
 
 const AppWrapper = styled.div`
@@ -7,8 +8,6 @@ const AppWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50vw;
-  height: 50vh;
 `;
 
 const Lotto = styled.div`
@@ -115,18 +114,17 @@ const App = () => {
     <AppWrapper>
       <Header setCurrentCategory={setCurrentCategory} />
       {currentCategory === "buy" ? (
-        <div>
-          <h1>로또 자동 추첨 자판기</h1>
-          <h2>금액을 투입하세요 (1000원에 한장)</h2>
-          <input onChange={onChangeMoney} type="text" />
-          <button onClick={onClickInsertMoney}>구매하기</button>
-        </div>
+        <BuyLotto
+          onChangeMoney={onChangeMoney}
+          onClickInsertMoney={onClickInsertMoney}
+        />
       ) : currentCategory === "check" ? (
         <div>
           <h1>구매한 로또 갯수 : {lottoCount}</h1>
           <button onClick={onClickShowNumber}>
             {showNumber ? "번호 가리기" : "번호 확인하기"}
           </button>
+          <button onClick={onClickReset}>초기화</button>
           {lottoNumber.length > 0 &&
             lottoNumber.map((lotto, index) => (
               <Lotto key={index}>
@@ -138,7 +136,6 @@ const App = () => {
                 ))}
               </Lotto>
             ))}
-          <button onClick={onClickReset}>초기화</button>
         </div>
       ) : (
         <div>
