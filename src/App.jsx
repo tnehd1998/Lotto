@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Header from "./components/Header/Header";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const App = () => {
   const [lottoNumber, setLottoNumber] = useState([]);
   const [showNumber, setShowNumber] = useState(false);
   const [timeUntilResult, setTimeUntilResult] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("buy");
 
   const onChangeMoney = (event) => {
     setMoney(event.target.value);
@@ -107,35 +109,48 @@ const App = () => {
     return `${days}일 ${hours - 9}시간 ${minutes}분 ${seconds}초`;
   };
 
+  const onClickCategory = (type) => {
+    setCurrentCategory(type);
+  };
+
   return (
     <AppWrapper>
-      <h1>로또 자동 추첨 자판기</h1>
-      <h2>금액을 투입하세요 (1000원에 한장)</h2>
-      <input onChange={onChangeMoney} type="text" />
-      <button onClick={onClickInsertMoney}>구매하기</button>
-      <h1>구매한 로또 갯수 : {lottoCount}</h1>
-      <button onClick={onClickShowNumber}>
-        {showNumber ? "번호 가리기" : "번호 확인하기"}
-      </button>
-      {lottoNumber.length > 0 &&
-        lottoNumber.map((lotto, index) => (
-          <Lotto key={index}>
-            <h1>{index + 1}번</h1>
-            {lotto.map((number, index) => (
-              <LottoNumber key={index}>{showNumber ? number : ""}</LottoNumber>
-            ))}
-          </Lotto>
-        ))}
-      <button onClick={onClickReset}>초기화</button>
+      <Header onClick={onClickCategory} />
       <div>
-        <h1>로또 당첨 금액</h1>
-        <h1>1등 : 1,513,274,790원 </h1>
-        <h1>2등 : 60,229,843원 </h1>
-        <h1>3등 : 1,371,186원</h1>
-        <h1>4등 : 50,000원</h1>
-        <h1>5등 : 5,000원</h1>
+        <h1>로또 자동 추첨 자판기</h1>
+        <h2>금액을 투입하세요 (1000원에 한장)</h2>
+        <input onChange={onChangeMoney} type="text" />
+        <button onClick={onClickInsertMoney}>구매하기</button>
       </div>
-      <h1>발표일까지 남은 시간 : {timeUntilResult}</h1>
+      <div>
+        <h1>구매한 로또 갯수 : {lottoCount}</h1>
+        <button onClick={onClickShowNumber}>
+          {showNumber ? "번호 가리기" : "번호 확인하기"}
+        </button>
+        {lottoNumber.length > 0 &&
+          lottoNumber.map((lotto, index) => (
+            <Lotto key={index}>
+              <h1>{index + 1}번</h1>
+              {lotto.map((number, index) => (
+                <LottoNumber key={index}>
+                  {showNumber ? number : ""}
+                </LottoNumber>
+              ))}
+            </Lotto>
+          ))}
+        <button onClick={onClickReset}>초기화</button>
+      </div>
+      <div>
+        <div>
+          <h1>로또 당첨 금액</h1>
+          <h1>1등 : 1,513,274,790원 </h1>
+          <h1>2등 : 60,229,843원 </h1>
+          <h1>3등 : 1,371,186원</h1>
+          <h1>4등 : 50,000원</h1>
+          <h1>5등 : 5,000원</h1>
+        </div>
+        <h1>발표일까지 남은 시간 : {timeUntilResult}</h1>
+      </div>
     </AppWrapper>
   );
 };
