@@ -3,10 +3,16 @@ import styled from "styled-components";
 
 const HeaderWrapper = styled.ul`
   display: flex;
+  height: 5vh;
 `;
 
 const Category = styled.li`
   cursor: pointer;
+  list-style: none;
+  margin: 0 1em;
+  border: 1px solid black;
+  padding: 1em;
+  border-radius: 20px;
 `;
 
 const Header = ({ setCurrentCategory }) => {

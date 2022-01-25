@@ -10,6 +10,16 @@ const AppWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  border-radius: 20px;
+  width: 80vw;
+  height: 80vh;
+  margin: auto;
+`;
+
+const Contents = styled.div`
+  height: 70vh;
+  display: flex;
 `;
 
 const App = () => {
@@ -65,6 +75,15 @@ const App = () => {
     setShowNumber((showNumber) => !showNumber);
   };
 
+  const calculateTimeLeft = () => {
+    let time = (Number(new Date("2022-01-29")) - Number(new Date())) / 1000;
+    const days = Math.floor(time / 86400);
+    const hours = Math.floor((time - 86400 * days) / 3600);
+    const minutes = Math.floor((time - 86400 * days - 3600 * hours) / 60);
+    const seconds = Math.floor(time % 60);
+    return `${days}일 ${hours - 9}시간 ${minutes}분 ${seconds}초`;
+  };
+
   useEffect(() => {
     if (localStorage.getItem("lottos")) {
       const data = JSON.parse(localStorage.getItem("lottos"));
@@ -86,34 +105,27 @@ const App = () => {
     };
   }, []);
 
-  const calculateTimeLeft = () => {
-    let time = (Number(new Date("2022-01-29")) - Number(new Date())) / 1000;
-    const days = Math.floor(time / 86400);
-    const hours = Math.floor((time - 86400 * days) / 3600);
-    const minutes = Math.floor((time - 86400 * days - 3600 * hours) / 60);
-    const seconds = Math.floor(time % 60);
-    return `${days}일 ${hours - 9}시간 ${minutes}분 ${seconds}초`;
-  };
-
   return (
     <AppWrapper>
       <Header setCurrentCategory={setCurrentCategory} />
-      {currentCategory === "buy" ? (
-        <BuyLotto
-          onChangeMoney={onChangeMoney}
-          onClickInsertMoney={onClickInsertMoney}
-        />
-      ) : currentCategory === "check" ? (
-        <MyLotto
-          lottoCount={lottoCount}
-          onClickShowNumber={onClickShowNumber}
-          showNumber={showNumber}
-          onClickReset={onClickReset}
-          lottoNumber={lottoNumber}
-        />
-      ) : (
-        <LottoResult timeUntilResult={timeUntilResult} />
-      )}
+      <Contents>
+        {currentCategory === "buy" ? (
+          <BuyLotto
+            onChangeMoney={onChangeMoney}
+            onClickInsertMoney={onClickInsertMoney}
+          />
+        ) : currentCategory === "check" ? (
+          <MyLotto
+            lottoCount={lottoCount}
+            onClickShowNumber={onClickShowNumber}
+            showNumber={showNumber}
+            onClickReset={onClickReset}
+            lottoNumber={lottoNumber}
+          />
+        ) : (
+          <LottoResult timeUntilResult={timeUntilResult} />
+        )}
+      </Contents>
     </AppWrapper>
   );
 };
