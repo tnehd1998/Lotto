@@ -41,6 +41,7 @@ const App = () => {
     if (money % 1000) {
       return alert("1000원 단위로 투입이 가능합니다.");
     }
+    setMoney("");
     setLottoCount(lottoCount + Number(money) / 1000);
     addRandomLottos(Number(money) / 1000);
   };
@@ -113,6 +114,7 @@ const App = () => {
           <BuyLotto
             onChangeMoney={onChangeMoney}
             onClickInsertMoney={onClickInsertMoney}
+            value={money}
           />
         ) : currentCategory === "check" ? (
           <MyLotto
